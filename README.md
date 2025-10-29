@@ -25,6 +25,6 @@ You can click the Preview link to take a look at your changes.
 
 ## 💼 Perfil Profissional
 
-Com mais de **15 anos de experiência** em Tecnologia da Informação, construí uma carreira sólida como **SysAdmin** com foco em **Cloud, Big Data** e **Sustentação de Ambientes Analíticos**.
-
-Tenho domínio em Cloud Pública e Privada, com experiência em **OpenStack, AWS, Azure e GCP**, além de certificações que validam minha capacidade de entregar soluções esc
+Engenheiro de Site Reliability e Cloud com mais de 15 anos de experiência em infraestrutura e sustentação de ambientes analíticos e corporativos. Especialista em **migração de servidores** e aplicações entre ambientes **VMware, OpenStack e AWS**, garantindo alta disponibilidade, automação e observabilidade.
+Domínio em AWS **(EC2, VPC, IAM, RDS, S3, CloudWatch, Lambda), Terraform, CI/CD (GitLab, Jenkins, GitHub Actions) e monitoramento com Grafana, Prometheus e Alertmanager.**
+Foco em entregar **ambientes resilientes e performáticos,** colaborando com times multidisciplinares para otimizar operações em nuvem.
