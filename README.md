@@ -12,6 +12,7 @@
 
 📎 Acesse meu perfil completo:  
 👉 [https://www.linkedin.com/in/pierremsantos/](https://www.linkedin.com/in/pierremsantos/)  
+
 🏅 Veja minhas certificações e badges:  
 👉 [https://www.credly.com/users/pierre-santos/badges#credly](https://www.credly.com/users/pierre-santos/badges#credly)
 
