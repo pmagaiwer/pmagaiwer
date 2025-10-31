@@ -56,5 +56,5 @@ Lista criada para inspirar, aprender e montar seus próprios **labs práticos**.
 ---
 
 📅 **Última atualização:** Outubro/2025  
-👤 Curadoria: [Pierre Santos](https://github.com/pierresantos)  
+👤 Curadoria: [Pierre Santos](https://github.com/pmagaiwer)  
 💬 Contribuições são bem-vindas!  
