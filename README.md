@@ -17,6 +17,7 @@
 ## 🧭 Resumo Profissional
 
 Profissional com mais de 10 anos de experiência em **Infraestrutura, Cloud e Observabilidade**, atuando como **Site Reliability Engineer (SRE) e Cloud Engineer.**
+
 Especialista em **AWS, Kubernetes, CI/CD, observabilidade (Grafana, Datadog, Prometheus, Alertmanager)** e automação com **Terraform e Ansible.**
 
 Com sólida experiência em **produtização de SLI/SLO**, gestão de incidentes, cultura DevOps e otimização de desempenho de aplicações e sistemas distribuídos.
