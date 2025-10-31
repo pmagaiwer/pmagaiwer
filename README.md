@@ -1,3 +1,6 @@
+<!--![Cabeçalho](head.jpg) https://raw.githubusercontent.com/pmagaiwer/site/refs/heads/main/head.jpg-->
+![Cabeçalho](https://raw.githubusercontent.com/pmagaiwer/site/refs/heads/main/head.jpg)
+
 # 👨‍💻 Pierre Santos  
 ### *Observabilidade e Cloud para um futuro resiliente ☁️*
 
@@ -233,7 +236,7 @@ AWS · Azure · Datadog · Prometheus · Grafana · CloudWatch · Docker · Kube
 - Databricks Fundamentals 📊  
 - SRE Foundation 🔧  
 
-Mais certificações disponíveis em:  
+# Mais **certificações** disponíveis em:  
 👉 [Minhas Badges na Credly](https://www.credly.com/users/pierre-santos/badges#credly)
 
 ---
@@ -241,7 +244,9 @@ Mais certificações disponíveis em:
 ## 📫 Contato
 
 🔗 [LinkedIn – Pierre M. Santos](https://www.linkedin.com/in/pierremsantos)  
+
 📧 contato@magaiwer.com
+
 📍 São Paulo – SP  
 
 ---
