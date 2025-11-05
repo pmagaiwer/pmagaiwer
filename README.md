@@ -173,6 +173,9 @@ Administração de redes LAN/WAN/WLAN · Firewall e IDS/IPS · Diagnóstico de r
     - 📚 Academy Accreditation – Databricks Fundamentals **(out/2025 – out/2026)**
     - Código: **164515718**
     - Competências: Hadoop, Azure Databricks
+- Microsoft Certified
+    - Azure Fundamentals (AZ-900)
+    - Código: **F88923113F939282**
 
 ---
 
