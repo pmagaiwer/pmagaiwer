@@ -4,7 +4,7 @@
 # 👨‍💻 Pierre Santos  
 ### *Observabilidade e Cloud para um futuro resiliente ☁️*
 
-**Site Reliability Engineer | Cloud Infrastructure | AWS | Terraform | Monitoring & Observability | Big Data & Data Engineering**
+**Site Reliability Engineer | Cloud Infrastructure | AWS | Azure | Terraform | Monitoring & Observability | Big Data & Data Engineering**
 
 ---
 
