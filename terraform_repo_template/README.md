@@ -168,7 +168,7 @@ terraform-repo/
 - Pipeline CI/CD genérico via YAML
 
 
-✅ 1. Padrão de Tags Obrigatórias – Terraform
+## ✅ 1. Padrão de Tags Obrigatórias – Terraform
 
 Recomenda-se definir um bloco de validação dentro do módulo, garantindo que cada recurso possua as tags obrigatórias.
 
@@ -180,27 +180,31 @@ AppIDs	Lista de aplicações	12345,23456,34567,456789
 Environment	Ambiente da infraestrutura	prd, dev, sbc
 CreatedBy	Criador do recurso	user@email
 CreatedOn	Data de criação	2025-12-05T20:15:21.059Z
-✅ 2. Módulo Terraform Padrão (template)
+
+## ✅ 2. Módulo Terraform Padrão (template)
 
 Crie um módulo modules/base-tags/ com validações + merge automático de tags:
-
+```
 modules/base-tags/variables.tf
 variable "CostString" {
   type        = string
   description = "Custos no padrão 1234.CC.123.123456"
 }
-
+```
+```
 variable "AppID" {
   type        = string
   description = "Identificador único da aplicação"
 }
-
+```
+```
 variable "AppIDs" {
   type        = list(string)
   description = "Lista de aplicações relacionadas"
   default     = []
 }
-
+```
+```
 variable "Environment" {
   type        = string
   description = "Ambiente da aplicação"
@@ -209,18 +213,22 @@ variable "Environment" {
     error_message = "Environment deve ser um de: prd, dev, sbc, hml, qa."
   }
 }
-
+```
+```
 variable "CreatedBy" {
   type        = string
   description = "Email do criador do recurso"
 }
-
+```
+```
 variable "CreatedOn" {
   type        = string
   description = "Timestamp de criação"
 }
+```
 
 modules/base-tags/main.tf
+```
 locals {
   mandatory_tags = {
     CostString = var.CostString
@@ -231,16 +239,19 @@ locals {
     CreatedOn  = var.CreatedOn
   }
 }
-
+```
+```
 output "tags" {
   value = local.mandatory_tags
 }
+```
 
-✅ 3. Exemplo de uso do módulo em qualquer recurso
+## ✅ 3. Exemplo de uso do módulo em qualquer recurso
 
 Aqui um exemplo criando um S3 usando o módulo:
 
 main.tf
+```
 module "tags" {
   source      = "./modules/base-tags"
   CostString  = "1234.CC.123.123456"
@@ -261,12 +272,13 @@ resource "aws_s3_bucket" "example" {
     }
   )
 }
-
-✅ 4. Resumo das Ferramentas + Dicas + Links Oficiais
+```
+  
+## ✅ 4. Resumo das Ferramentas + Dicas + Links Oficiais
 
 Abaixo um resumo enxuto para colocar no README do repositório.
 
-JENKINS
+## JENKINS
 
 O que é:
 Ferramenta de CI/CD altamente configurável, usada para automatizar pipelines de build, testes e deploy.
@@ -290,7 +302,7 @@ Evitar instalar plugins desnecessários
 Documentação:
 https://www.jenkins.io/doc/
 
-NENUX (provavelmente Linux / ambiente UNIX)
+## NENUX (provavelmente Linux / ambiente UNIX)
 
 (Se você quis dizer algo específico como “Nexus” me avise — mas “Nenux” costuma ser erro de digitação de “Linux”)
 
@@ -315,16 +327,16 @@ Scripts shell devem ser idempotentes
 
 Permissões (chmod, chown) são fundamentais
 
-Documentação:
+## Documentação:
 https://ubuntu.com/server/docs
 
 https://man7.org/linux/man-pages/
 
-SONARQUBE
+## SONARQUBE
 
 Ferramenta de análise de qualidade e segurança de código.
 
-Como funciona:
+## Como funciona:
 
 Analisa código em busca de bugs, vulnerabilidades e más práticas
 
@@ -332,7 +344,7 @@ Conecta-se a pipelines (ex: Jenkins)
 
 Gera métricas: Coverage, Code Smells, Security Hotspots
 
-Dicas úteis:
+## Dicas úteis:
 
 Definir quality gates obrigatórios no CI
 
@@ -340,7 +352,7 @@ Não aprovar PRs sem análise do Sonar
 
 Integrar com GitHub/GitLab para comentários automáticos
 
-Documentação:
+## Documentação:
 https://docs.sonarsource.com/sonarqube/
 
 APACHE AIRFLOW
@@ -355,12 +367,9 @@ Escrita em Python
 
 Scheduler + Workers executam pipelines
 
-Dicas úteis:
+## Dicas úteis:
 
-Manter DAGs pequenos e modulares
+- Manter DAGs pequenos e modulares
+- Usar variáveis e connections do Airflow para segredos
+- Monitorar SLAs e falhas com alertas
 
-Usar variáveis e connections do Airflow para segredos
-
-Monitorar SLAs e falhas com alertas
-
-Documentação:
