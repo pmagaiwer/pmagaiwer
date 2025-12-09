@@ -148,10 +148,19 @@ Administração de redes LAN/WAN/WLAN · Firewall e IDS/IPS · Diagnóstico de r
 - **Python 3 Completo – Do iniciante ao avançado (mai/2019)**  
 
 ### Alura  
+- **Formação AWS: Observabilidade com CloudWatch e Containers com ECS e EKS (nov/2025):** CloudWatch · Observabilidade · ECS · EKS · Containers  
+  *Código da credencial: 41a3adad-bf16-463d-bfd1-47770070baf5*
 - **Kubernetes: Orquestração de Containers (dez/2020)**  
 - **Docker: Criando Containers sem Dor de Cabeça (dez/2020)**  
 - **GitLab CI e Docker: Pipeline de Entrega Contínua (dez/2020)**  
 - **Git e GitHub: Controle e Compartilhe seu Código (dez/2020)**  
+
+### The Linux Foundation  
+- **Getting Started with OpenTelemetry (LFS148) (nov/2025):** OpenTelemetry · Observabilidade · Distributed Tracing  
+
+### LINUXtips  
+- **Uncomplicating GitOps in Kubernetes with ArgoCD (nov/2025):** Kubernetes · GitOps · ArgoCD · CI/CD  
+  *Código da credencial: 165867600*
 
 ### Tempo Real Eventos  
 - **Nagios Formação Essencial (2014):** Instalação, configuração e desenvolvimento de plugins de monitoramento corporativo  
@@ -174,8 +183,12 @@ Administração de redes LAN/WAN/WLAN · Firewall e IDS/IPS · Diagnóstico de r
     - Código: **164515718**
     - Competências: Hadoop, Azure Databricks
 - Microsoft Certified
-    - Azure Fundamentals (AZ-900)
+    - 🔵 **Microsoft Certified: Azure Fundamentals (AZ-900) (nov/2025)**
     - Código: **F88923113F939282**
+    - Competências: Cloud Computing, Azure
+- The Linux Foundation
+    - 🐧 **Getting Started with OpenTelemetry (LFS148) (nov/2025)**
+    - Competências: OpenTelemetry, Observabilidade, Distributed Tracing
 
 ---
 
