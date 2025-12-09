@@ -47,7 +47,7 @@ O projeto nasceu para levar **alimentação, diversão e amor** a crianças em s
 
 # 📅 abr/2021 – set/2025
 
- - Implementação de pipelines CI/CD com Jenkins, GitLab e ArgoCD.
+ - Implementação de pipelines CI/CD com Jenkins e GitLab.
  - Criação e manutenção de dashboards de observabilidade (Grafana, Datadog, Prometheus).
  - Desenvolvimento de automações com Terraform, Python e Shell Script.
  - Produtização de SLI/SLOs e integração com Alertmanager e ServiceNow.
