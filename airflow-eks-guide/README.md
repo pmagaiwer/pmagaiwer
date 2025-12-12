@@ -1,4 +1,4 @@
-# 📘 README — Guia Operacional Airflow + EKS + Terraform (AGRO)
+# 📘 README — Guia Operacional Airflow + EKS + Terraform (<project>)
 
 Este documento resume todo o funcionamento da esteira CI/CD, operação do Airflow em EKS, práticas de troubleshooting, guia de estudos e um passo a passo real de como uma mudança no SQS é aplicada. Ideal para onboardings, suporte nível SR e referência rápida.
 
@@ -55,7 +55,7 @@ Este documento resume todo o funcionamento da esteira CI/CD, operação do Airfl
 ## **Acesso ao Cluster**
 - Abra o Freelens
 - Vá em **Clusters**
-- Selecione: `eks-agro-dev`, `eks-agro-uat` ou `eks-agro-prod`
+- Selecione: `eks-<project>-dev`, `eks-<project>-uat` ou `eks-<project>-prod`
 - Conecte
 
 ## **Namespaces Importantes**
