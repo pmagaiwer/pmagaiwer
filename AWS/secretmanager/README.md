@@ -136,7 +136,7 @@ aws secretsmanager create-secret \
   --name airflow/db/credentials \
   --secret-string '{
     "username": "airflow",
-    "password": "senha123",
+    "password": "<passowrd>",
     "host": "db.internal",
     "port": 5432
   }'
@@ -201,7 +201,8 @@ aws secretsmanager describe-secret \
 
 ---
 
-## ❌ Deletar uma secret
+## ❌ 
+ Deletar uma secret
 
 ```bash
 aws secretsmanager delete-secret --secret-id airflow/db/credentials
