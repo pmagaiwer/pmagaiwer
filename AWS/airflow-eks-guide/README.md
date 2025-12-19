@@ -228,5 +228,4 @@ sre-knowledge-base/
 
 ---
 
-Se quiser, posso também gerar esse README como **PDF** ou criar arquivos separados dentro dessa pasta para você mover direto para o Git.
-
+[Comandos PostgreSQL](../postgresql/README.md)
