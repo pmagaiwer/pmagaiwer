@@ -1,0 +1,68 @@
+{
+  "widgets": [
+    {
+      "type": "metric",
+      "x": 0,
+      "y": 0,
+      "width": 12,
+      "height": 6,
+      "properties": {
+        "title": "Invocations & Errors",
+        "metrics": [
+          [ "AWS/Lambda", "Invocations", "FunctionName", "MINHA_LAMBDA" ],
+          [ ".", "Errors", ".", "." ]
+        ],
+        "region": "us-east-1",
+        "stat": "Sum",
+        "period": 300
+      }
+    },
+    {
+      "type": "metric",
+      "x": 12,
+      "y": 0,
+      "width": 12,
+      "height": 6,
+      "properties": {
+        "title": "Duration (P95)",
+        "metrics": [
+          [ "AWS/Lambda", "Duration", "FunctionName", "MINHA_LAMBDA", { "stat": "p95" } ]
+        ],
+        "region": "us-east-1",
+        "period": 300
+      }
+    },
+    {
+      "type": "metric",
+      "x": 0,
+      "y": 6,
+      "width": 12,
+      "height": 6,
+      "properties": {
+        "title": "Throttles",
+        "metrics": [
+          [ "AWS/Lambda", "Throttles", "FunctionName", "MINHA_LAMBDA" ]
+        ],
+        "region": "us-east-1",
+        "stat": "Sum",
+        "period": 300
+      }
+    },
+    {
+      "type": "metric",
+      "x": 12,
+      "y": 6,
+      "width": 12,
+      "height": 6,
+      "properties": {
+        "title": "Concurrent Executions",
+        "metrics": [
+          [ "AWS/Lambda", "ConcurrentExecutions", "FunctionName", "MINHA_LAMBDA" ]
+        ],
+        "region": "us-east-1",
+        "stat": "Maximum",
+        "period": 300
+      }
+    }
+  ]
+}

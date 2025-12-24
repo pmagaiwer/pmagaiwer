@@ -1,0 +1,36 @@
+{
+  "widgets": [
+    {
+      "type": "metric",
+      "x": 0,
+      "y": 0,
+      "width": 24,
+      "height": 6,
+      "properties": {
+        "title": "Duration P50 / P95 / P99",
+        "metrics": [
+          [ "AWS/Lambda", "Duration", "FunctionName", "MINHA_LAMBDA", { "stat": "p50" } ],
+          [ ".", "Duration", ".", ".", { "stat": "p95" } ],
+          [ ".", "Duration", ".", ".", { "stat": "p99" } ]
+        ],
+        "region": "us-east-1",
+        "period": 300
+      }
+    },
+    {
+      "type": "metric",
+      "x": 0,
+      "y": 6,
+      "width": 24,
+      "height": 6,
+      "properties": {
+        "title": "Cold Start (InitDuration)",
+        "metrics": [
+          [ "AWS/Lambda", "InitDuration", "FunctionName", "MINHA_LAMBDA", { "stat": "p95" } ]
+        ],
+        "region": "us-east-1",
+        "period": 300
+      }
+    }
+  ]
+}
