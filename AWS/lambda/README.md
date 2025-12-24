@@ -1,118 +1,114 @@
-## Como validar as permissões da Lambda via AWS CLI (passo a passo)
+1️⃣ Como validar as permissões da Lambda via AWS CLI (passo a passo)
+2️⃣ Conteúdo completo de um arquivo lambda-cross-account-validation.md com:
 
 
+# Lambda AWS
 
-1️⃣ Validando permissões de uma Lambda via AWS CLI
-1. Ver a policy da Lambda (principal)
+## Permissões Lambda
 
-Esse é o comando mais importante.
+### Exemplo de política para permitir acesso ao S3
 
-aws lambda get-policy \
+```json
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Effect": "Allow",
+      "Action": [
+        "s3:GetObject",
+        "s3:PutObject"
+      ],
+      "Resource": "arn:aws:s3:::nome-do-bucket/*"
+    }
+  ]
+}
+```
+
+### Exemplo de política para permitir acesso ao DynamoDB
+
+```json
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Effect": "Allow",
+      "Action": [
+        "dynamodb:PutItem",
+        "dynamodb:GetItem"
+      ],
+      "Resource": "arn:aws:dynamodb:REGIAO:ID_DA_CONTA:table/NOME_DA_TABELA"
+    }
+  ]
+}
+```
+
+## Links úteis
+
+- [Documentação AWS Lambda](https://docs.aws.amazon.com/lambda/latest/dg/welcome.html)
+- [Exemplos de políticas IAM](https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_policies_examples.html)
+
+## Observações
+
+- Sempre restrinja o acesso apenas aos recursos necessários.
+- Utilize variáveis de ambiente para armazenar informações sensíveis.
+- Monitore logs e métricas pelo CloudWatch.
+aws lambda get-function \
   --function-name minha-lambda \
   --region us-east-1
 
+5. Validar quem está tentando invocar (opcional)
 
-🔎 Isso retorna um JSON com a resource-based policy da Lambda.
+Se for outra conta, confirme a identity policy dela:
 
-2. Exemplo de saída esperada (resumo)
-{
-  "Policy": "{ 
-    \"Statement\": [
-      {
-        \"Sid\": \"AllowCrossAccountInvoke\",
-        \"Effect\": \"Allow\",
-        \"Principal\": { \"AWS\": \"222222222222\" },
-        \"Action\": \"lambda:InvokeFunction\",
-        \"Resource\": \"arn:aws:lambda:us-east-1:111111111111:function:minha-lambda\"
-      }
-    ]
-  }"
-}
+aws iam simulate-principal-policy \
+  --policy-source-arn arn:aws:iam::222222222222:role/minha-role \
+  --action-names lambda:InvokeFunction \
+  --resource-arns arn:aws:lambda:us-east-1:111111111111:function:minha-lambda
 
-3. Validar versão / alias (se existir)
+2️⃣ Arquivo .md — pronto para uso
 
-Se a Lambda usa alias ou version, valide explicitamente:
+👉 Crie um arquivo chamado:
 
+lambda-cross-account-validation.md
+
+Conteúdo completo 👇 (copie e cole)
+# Validação de Permissões – Lambda Cross-Account
+
+## 📌 Objetivo
+Validar e documentar permissões de invocação cross-account em uma função AWS Lambda.
+
+---
+
+## 🧩 Contexto
+- Conta da Lambda (Owner): `111111111111`
+- Conta Invocadora: `222222222222`
+- Região: `us-east-1`
+- Nome da Lambda: `minha-lambda`
+- Alias/Version: `N/A` (ou especificar)
+
+---
+
+## ✅ Checklist Obrigatório (Pré-Validação)
+
+- [ ] Lambda existe na conta correta
+- [ ] Região correta
+- [ ] Nome da função correto
+- [ ] Uso de Alias/Version validado
+- [ ] Resource-based policy configurada na Lambda
+- [ ] `statement_id` único
+- [ ] Principal correto (Account / Role / Service)
+- [ ] `lambda:InvokeFunction` permitido
+- [ ] `source-account` e `source-arn` definidos (se serviço AWS)
+- [ ] Identity policy do invocador permite `lambda:InvokeFunction`
+
+---
+
+## � Comandos de Validação (AWS CLI)
+
+### 1️⃣ Ver policy da Lambda
+```bash
 aws lambda get-policy \
-  --function-name minha-lambda:prod \
-  --region us-east-1
-
-
-⚠️ Permissão não herda automaticamente entre $LATEST, version e alias.
-
-4. Ver configuração geral da Lambda
-
-Ajuda a evitar erro de região, nome ou runtime:
-
-
-# AWS Lambda
-
-## Comandos Úteis
-
-### Listar funções Lambda
-```bash
-aws lambda list-functions --region <região>
-```
-
-### Invocar função Lambda
-```bash
-aws lambda invoke \
-  --function-name <nome-da-funcao> \
-  --payload '{"key": "value"}' \
-  output.json \
-  --region <região>
-```
-
-### Atualizar código da função Lambda
-```bash
-aws lambda update-function-code \
-  --function-name <nome-da-funcao> \
-  --zip-file fileb://arquivo.zip \
-  --region <região>
-```
-
-### Excluir função Lambda
-```bash
-aws lambda delete-function --function-name <nome-da-funcao> --region <região>
-```
-
-### Listar logs da função Lambda (CloudWatch)
-```bash
-aws logs filter-log-events \
-  --log-group-name /aws/lambda/<nome-da-funcao> \
-  --region <região>
-```
-
-### Adicionar permissão à função Lambda
-```bash
-aws lambda add-permission \
-  --function-name <nome-da-funcao> \
-  --action lambda:InvokeFunction \
-  --statement-id <id> \
-  --principal <serviço> \
-  --region <região>
-```
-
-### Remover permissão da função Lambda
-```bash
-aws lambda remove-permission \
-  --function-name <nome-da-funcao> \
-  --statement-id <id> \
-  --region <região>
-```
-
-### Listar permissões da função Lambda
-```bash
-aws lambda get-policy --function-name <nome-da-funcao> --region <região>
-```
-
-### Atualizar variáveis de ambiente
-```bash
-aws lambda update-function-configuration \
-  --function-name <nome-da-funcao> \
-  --environment "Variables={VAR1=valor1,VAR2=valor2}" \
-  --region <região>
-```
+  --function-name minha-lambda \
   --region us-east-1
 
 
