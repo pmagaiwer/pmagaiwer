@@ -176,11 +176,3 @@ AWS CLI lambda add-permission
 
 ---
 
-## 3️⃣ Próximo nível (opcional)
-Se quiser, posso:
-- interpretar **seu output real**
-- revisar se está **seguro ou permissivo demais**
-- gerar a **policy Terraform final baseada no estado atual**
-- criar uma **versão auditoria-ready (SOC2 / ISO)**
-
-É só colar aqui o output do `get-policy`.
