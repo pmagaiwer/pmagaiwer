@@ -8,6 +8,26 @@ Este documento consolida todas as informações discutidas neste chat sobre **Am
 
 O **Amazon DocumentDB** é um banco de dados **NoSQL gerenciado pela AWS**, compatível com a **API do MongoDB**, projetado para armazenar dados no formato **documento (JSON/BSON)**.
 
+## 📄 O que são “documentos”?
+
+Em vez de tabelas e linhas (como bancos relacionais), o DocumentDB trabalha com documentos JSON, por exemplo:
+
+```bash
+{
+  "user_id": 123,
+  "nome": "Pierre",
+  "email": "pierre@email.com",
+  "enderecos": [
+    { "cidade": "SP", "tipo": "residencial" },
+    { "cidade": "RJ", "tipo": "trabalho" }
+  ]
+}
+```
+
+- ➡️ Estrutura flexível
+- ➡️ Sem schema fixo
+- ➡️ Ideal para dados complexos e aninhados
+
 ### Principais características
 
 * Modelo de dados flexível (documentos JSON)
