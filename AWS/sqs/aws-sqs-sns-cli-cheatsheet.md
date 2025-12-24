@@ -19,7 +19,7 @@ Referência rápida de comandos básicos para gerenciar **Amazon SQS** e **Amazo
 ### Listar filas
 ```bash
 aws sqs list-queues
-
+```
 
 ---
 
