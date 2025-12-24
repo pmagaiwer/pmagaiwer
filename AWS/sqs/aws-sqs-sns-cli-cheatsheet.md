@@ -46,6 +46,7 @@ Um único evento publicado em um tópico SNS pode ser entregue a **múltiplas fi
 3. Cada **fila SQS** recebe sua própria cópia da mensagem
 4. Consumidores processam mensagens da fila no seu próprio ritmo
 
+```bash
 Producer
 |
 v
@@ -54,7 +55,7 @@ SNS Topic
 +--> SQS Queue A --> Consumer A
 |
 +--> SQS Queue B --> Consumer B
-
+```
 
 ---
 
