@@ -1,3 +1,4 @@
+```mermaid
 flowchart TB
     subgraph Sources["Fontes de Dados"]
         A1["Aplicações"]
