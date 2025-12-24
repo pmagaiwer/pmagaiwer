@@ -1,340 +1,275 @@
-📁 01 – s3-data-lake.md
+# 📊 AWS Data Lake – Visão Geral e Guia Prático
 
-# Data Lake no Amazon S3
+## 📌 O que é um Data Lake?
 
-## Visão Geral
+Um **Data Lake** é uma arquitetura projetada para armazenar, processar e analisar grandes volumes de dados **estruturados, semi-estruturados e não estruturados**, mantendo os dados em seu formato original ou refinado conforme necessário.
 
-O Amazon S3 é a base do Data Lake, responsável por armazenar dados **raw**, **processed** e **curated** com alta durabilidade e baixo custo.
+Na AWS, o Data Lake é construído de forma **serverless, escalável e segura**, permitindo ingestão contínua, processamento sob demanda e consumo por múltiplos perfis (Data Science, BI, Engenharia e SRE).
 
-### Arquitetura comum
+---
 
-```
-s3://datalake/
- ├── raw/
- ├── processed/
- └── curated/
-```
+## 🎯 Objetivos de um Data Lake
 
-## Métricas Importantes (CloudWatch)
+- Centralizar dados de múltiplas fontes
+- Separar ingestão, processamento e consumo
+- Garantir governança e segurança
+- Escalar com baixo custo
+- Permitir análises avançadas e BI
 
-**Técnicas:**
+---
 
-- BucketSizeBytes
-- NumberOfObjects
-- 4xxErrors
-- 5xxErrors
-- FirstByteLatency
-- TotalRequestLatency
+## 🧱 Arquitetura de um Data Lake na AWS
 
-## Exemplos de SLI / SLO
+### Serviços Principais
 
-**SLI:**
-- % de requisições GET/PUT bem-sucedidas
-- Latência p95 de leitura de objetos
-- Taxa de erros 5xx
+| Camada | Serviço |
+|------|--------|
+| Armazenamento | Amazon S3 |
+| Catálogo | AWS Glue Data Catalog |
+| Processamento | AWS Glue / Amazon EMR |
+| Consulta | Amazon Athena |
+| Governança | AWS Lake Formation |
+| Visualização | Amazon QuickSight |
+| Segurança | IAM, KMS |
+| Observabilidade | CloudWatch |
 
-**SLO (exemplo):**
-- Disponibilidade: 99.9% de sucesso em requisições
-- Latência: p95 < 200ms para objetos < 128MB
+---
 
-## Acesso e Segurança
-
-**Boas práticas:**
-- Nunca acesso público
-- Uso de IAM Roles, não usuários
-- Bucket Policies + IAM
-- SSE-KMS habilitado
-- Versionamento ativo
-- Object Lock (opcional)
-
-## Exemplo de acesso
-
-- Glue: leitura em raw/
-- EMR: leitura/escrita em processed/
-- Athena: leitura em curated/
-- QuickSight: acesso via Athena
-
-## Terraform – Boas Práticas
-
-```hcl
-resource "aws_s3_bucket" "datalake" {
-  bucket = "company-datalake-prod"
-}
-
-resource "aws_s3_bucket_versioning" "versioning" {
-  bucket = aws_s3_bucket.datalake.id
-  versioning_configuration {
-    status = "Enabled"
-  }
-}
-
-resource "aws_s3_bucket_server_side_encryption_configuration" "sse" {
-  bucket = aws_s3_bucket.datalake.id
-
-  rule {
-    apply_server_side_encryption_by_default {
-      kms_master_key_id = aws_kms_key.datalake.arn
-      sse_algorithm     = "aws:kms"
-    }
-  }
-}
+## 🏗️ Exemplo de Arquitetura (Visão Lógica)
+```bash
+    ┌────────────┐
+    │  Fontes    │
+    │ (Apps, DB) │
+    └─────┬──────┘
+          │
+    ┌─────▼──────┐
+    │  S3 - RAW  │
+    │ dados brutos│
+    └─────┬──────┘
+          │
+  ┌───────▼────────┐
+  │ Glue / EMR ETL │
+  │ limpeza/enrich │
+  └───────┬────────┘
+          │
+    ┌─────▼──────┐
+    │ S3 - CURATED│
+    │ dados prontos│
+    └─────┬──────┘
+          │
+┌──────────▼──────────┐
+│ Glue Data Catalog │
+└──────────┬──────────┘
+         │
+┌──────────▼──────────┐
+│ Amazon Athena │
+└──────────┬──────────┘
+            │
+┌─────▼──────┐
+│ QuickSight │
+│ Dashboards │
+└────────────┘
 ```
 
-📁 02 – glue.md
-Visão Geral
+---
+
+## 🗂️ Organização de Dados no S3
+
+Estrutura recomendada:
+```bash
+s3://company-datalake/
+├── raw/
+│ ├── system_a/
+│ └── system_b/
+├── processed/
+│ ├── cleansed/
+│ └── enriched/
+└── curated/
+├── analytics/
+└── bi/
+```
 
-AWS Glue é o motor de catalogação, ETL e metadados do Data Lake.
+### Conceito das camadas
+- **RAW**: dados como chegaram da origem
+- **PROCESSED**: dados tratados e normalizados
+- **CURATED**: dados prontos para consumo
+
+---
 
-Componentes
+## 🧪 Exemplo Prático de Uso
 
-Glue Data Catalog
+### Cenário
+Uma empresa deseja analisar **vendas e comportamento de clientes**.
 
-Crawlers
+### Fluxo
+1. Aplicações enviam dados para `s3://datalake/raw/`
+2. Glue Crawlers catalogam os dados
+3. Glue Jobs processam e escrevem em `processed/`
+4. Dados refinados são salvos em `curated/`
+5. Athena consulta os dados via SQL
+6. QuickSight cria dashboards para o time de BI
 
-Jobs (Spark / Python)
+---
 
-Workflows
+## 🔐 Governança e Acesso
+
+### Estratégia recomendada
+- **IAM Roles**, nunca usuários
+- **Lake Formation** controla acesso por:
+  - Database
+  - Tabela
+  - Coluna
+- **QuickSight não acessa S3 diretamente**
+
+### Exemplo de acesso por persona
+
+| Persona | Acesso |
+|------|------|
+| Data Scientist | Leitura em curated |
+| BI | Views via Athena |
+| Engenharia | RAW + PROCESSED |
+| SRE | Infra e observabilidade |
+
+---
+
+## 📈 Observabilidade e Confiabilidade
+
+### Métricas importantes
+- S3: erros 4xx/5xx, latência
+- Glue: jobs com falha
+- Athena: tempo de query
+- QuickSight: tempo de carregamento
+
+### SLIs / SLOs (exemplo)
+- Disponibilidade: **99.9%**
+- Queries Athena: p95 < 30s
+- Jobs Glue: 99% de sucesso
+
+---
+
+## 🏗️ Infraestrutura como Código (IaC)
+
+Toda a infraestrutura deve ser criada via **Terraform**:
+
+- Buckets S3
+- IAM Roles
+- Glue Jobs
+- Athena Workgroups
+- Lake Formation permissions
+- CloudWatch dashboards
+
+Benefícios:
+- Reprodutibilidade
+- Auditoria
+- Controle de mudanças
+- Ambientes separados (dev/stg/prod)
+
+---
 
-Métricas Importantes
+## ✅ Boas Práticas
 
-glue.driver.aggregate.elapsedTime
+- Particionar dados por data (`year/month/day`)
+- Usar formatos colunares (Parquet)
+- Criptografia com KMS
+- Controle de custos com Athena Workgroups
+- EMR efêmero
+- Dashboards e alarmes desde o início
 
-glue.executor.aggregate.cpuTime
+---
 
-glue.jobs.failed
+## 📚 Referências
 
-glue.jobs.succeeded
+- AWS Well-Architected – Analytics
+- AWS Lake Formation Best Practices
+- AWS Glue Documentation
+- Amazon Athena Best Practices
 
-SLI / SLO
-SLI
+---
 
-Taxa de sucesso dos jobs
+## 🚀 Conclusão
 
-Tempo médio de execução
+Um Data Lake bem implementado na AWS permite:
+- Escala
+- Segurança
+- Governança
+- Observabilidade
+- Flexibilidade para múltiplos times
 
-Freshness do catálogo
+Este repositório serve como **base de referência** para construção e operação de um Data Lake moderno.
 
-SLO
+---
 
-99% dos jobs finalizam com sucesso
 
-Tempo de execução < X minutos (por job crítico)
+flowchart TB
+    subgraph Sources["Fontes de Dados"]
+        A1["Aplicações"]
+        A2["Bancos de Dados"]
+        A3["APIs Externas"]
+        A4["Arquivos Batch"]
+    end
 
-Catálogo atualizado em até 30 min após ingestão
+    subgraph Ingestion["Ingestão"]
+        B1["EventBridge"]
+        B2["AWS DMS"]
+        B3["AWS Transfer"]
+    end
 
-Acesso
+    subgraph Storage["Data Lake - Amazon S3"]
+        C1["RAW Zone"]
+        C2["PROCESSED Zone"]
+        C3["CURATED Zone"]
+    end
 
-Jobs executam com IAM Role
+    subgraph Processing["Processamento"]
+        D1["AWS Glue Jobs"]
+        D2["Amazon EMR (Spark)"]
+    end
 
-Permissões mínimas:
+    subgraph Catalog["Catálogo e Governança"]
+        E1["Glue Data Catalog"]
+        E2["Lake Formation"]
+    end
 
-S3 read/write
+    subgraph Analytics["Consumo e Analytics"]
+        F1["Amazon Athena"]
+        F2["Amazon QuickSight"]
+        F3["Data Science / ML"]
+    end
 
-Glue Catalog
+    subgraph Observability["Observabilidade"]
+        G1["Amazon CloudWatch"]
+        G2["CloudWatch Alarms"]
+    end
 
-Logs (CloudWatch)
+    A1 --> B1 --> C1
+    A2 --> B2 --> C1
+    A3 --> B1 --> C1
+    A4 --> B3 --> C1
 
-Terraform – Boas Práticas
-resource "aws_glue_catalog_database" "db" {
-  name = "datalake_curated"
-}
+    C1 --> D1 --> C2
+    C2 --> D2 --> C3
 
-resource "aws_glue_job" "etl" {
-  name     = "etl-curated"
-  role_arn = aws_iam_role.glue.arn
-  command {
-    script_location = "s3://scripts/etl.py"
-  }
-}
+    C1 --> E1
+    C2 --> E1
+    C3 --> E1
 
-📁 03 – athena.md
-Visão Geral
+    E2 --> E1
 
-Athena permite consulta SQL serverless sobre dados no S3 usando Glue Catalog.
+    C3 --> F1 --> F2
+    C3 --> F3
 
-Métricas Importantes
+    D1 --> G1
+    D2 --> G1
+    F1 --> G1
+    G1 --> G2
 
-ProcessedBytes
 
-QueryExecutionTime
 
-QueryFailedCount
 
-SLI / SLO
-SLI
 
-Taxa de sucesso das queries
 
-Tempo médio de execução
 
-Bytes processados por query
 
-SLO
 
-99.5% das queries com sucesso
-
-p95 < 30s para queries padrão
-
-Acesso
-
-Usuários via IAM + Lake Formation
-
-QuickSight acessa via Athena
-
-Workgroups para controle de custo
-
-Terraform – Boas Práticas
-resource "aws_athena_workgroup" "wg" {
-  name = "analytics"
-  configuration {
-    enforce_workgroup_configuration = true
-    publish_cloudwatch_metrics_enabled = true
-  }
-}
-
-📁 04 – emr.md
-Visão Geral
-
-Amazon EMR é usado para processamento distribuído pesado (Spark, Hive, Presto).
-
-Métricas Importantes
-
-YARN Memory Utilization
-
-HDFS Used Space
-
-Failed Steps
-
-Cluster Uptime
-
-SLI / SLO
-SLI
-
-% de steps bem-sucedidos
-
-Tempo de processamento por job
-
-SLO
-
-99% dos steps sem falha
-
-Jobs críticos < X horas
-
-Boas Práticas
-
-EMR ephemeral (cria → processa → termina)
-
-Auto Scaling
-
-Spot Instances
-
-Logs centralizados no S3
-
-Terraform – Boas Práticas
-resource "aws_emr_cluster" "cluster" {
-  name          = "etl-emr"
-  release_label = "emr-6.15.0"
-  applications  = ["Spark"]
-}
-
-📁 05 – lake-formation.md
-Visão Geral
-
-Lake Formation gerencia governança, segurança e acesso aos dados.
-
-Funcionalidades
-
-Controle fino por tabela/coluna
-
-Integração com Athena, Glue, Redshift
-
-Centralização de permissões
-
-Métricas Importantes
-
-Access Denied Events
-
-Policy Evaluation Latency
-
-SLI / SLO
-SLI
-
-% de acessos autorizados corretamente
-
-Tempo de avaliação de políticas
-
-SLO
-
-100% de acessos auditáveis
-
-Latência de autorização < 100ms
-
-Acesso (Exemplo)
-
-Time Data Science: leitura em curated
-
-BI: acesso apenas via views
-
-Engenharia: acesso total controlado
-
-Terraform – Boas Práticas
-resource "aws_lakeformation_permissions" "athena_access" {
-  principal   = aws_iam_role.athena.arn
-  permissions = ["SELECT"]
-}
-
-📁 06 – quicksight.md
-Visão Geral
-
-QuickSight é a camada de visualização e BI.
-
-Métricas Importantes
-
-Dashboard Load Time
-
-Failed Queries
-
-SPICE Capacity Usage
-
-SLI / SLO
-SLI
-
-Tempo de carregamento de dashboards
-
-Taxa de erro de visualização
-
-SLO
-
-p95 < 5s para dashboards
-
-99.9% de disponibilidade
-
-Acesso
-
-Autenticação via IAM / SSO
-
-Sem acesso direto ao S3
-
-Sempre via Athena ou Redshift
-
-Boas Práticas
-
-Usar SPICE para performance
-
-Views no Athena
-
-Governança via Lake Formation
-
-📁 Serviços adicionais recomendados
-
-Crie também:
-
-kms.md – criptografia
-
-cloudwatch.md – observabilidade
-
-iam.md – estratégia de acesso
-
-step-functions.md – orquestração
-
-eventbridge.md – eventos de ingestão
+```bash
+```
